@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+const PORT = process.env.PORT || 8080;
 const bodyparser = require('body-parser')
 
 const app = express()
@@ -102,6 +103,5 @@ app.get('/v1/lion-school/alunos/filtro', async function(request, response) {
 })
 
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+app.listen(() => console.log(`Servidor rodando na porta ${PORT}`))
 
