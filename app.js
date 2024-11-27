@@ -1,6 +1,5 @@
 const express = require('express')
 const cors = require('cors')
-const PORT = process.env.PORT || 8080;
 const bodyparser = require('body-parser')
 
 const app = express()
@@ -33,6 +32,44 @@ app.get('/v1/lion-school/alunos', cors(), async function(request, response){
     response.json(dados)
 })
 
+app.get('/v1/lion-school/alunos/filtro', async function(request, response) {
+    const { status, sigla, disciplina, ano } = request.query;
+    let dados;
+
+    // Verifica se é uma busca por status
+    if (status) {
+        dados = cursos.getStatusAluno(status);
+        if (dados) {
+            return response.status(200).json(dados);
+        } else {
+            return response.status(404).json({ status: 404, message: 'Nenhum aluno encontrado com esse status' });
+        }
+    }
+
+    // Verifica se é uma busca por sigla e disciplina
+    if (sigla && disciplina) {
+        dados = cursos.getDisciplinaAluno(sigla, disciplina);
+        if (dados) {
+            return response.status(200).json(dados);
+        } else {
+            return response.status(404).json({ status: 404, message: 'Não foi possível encontrar o aluno ou disciplina' });
+        }
+    }
+
+    // Verifica se é uma busca por sigla e ano
+    if (sigla && ano) {
+        dados = cursos.getAnoConclusao(sigla, ano);
+        if (dados) {
+            return response.status(200).json(dados);
+        } else {
+            return response.status(404).json({ status: 404, message: 'Não foi possível encontrar o curso ou ano de conclusão' });
+        }
+    }
+
+    // Se nenhum parâmetro for fornecido
+    return response.status(400).json({ status: 400, message: 'Parâmetros insuficientes para realizar a busca' });
+})
+
 app.get('/v1/lion-school/alunos/:matricula', cors(), async function (request, response) {
     let matricula = request.params.matricula
     let dados = cursos.getMatricula(matricula)
@@ -60,48 +97,7 @@ app.get('/v1/lion-school/alunos/cursos/:sigla', cors(), async function (request,
 })
 
 
-app.get('/v1/lion-school/alunos/filtro', async function(request, response) {
-    const curso = request.query.curso
-    const status = request.query.status
-    const dados = cursos.getStatusAluno(status, curso)
-
-    if (dados) {
-        response.status(200)
-        response.json(dados)
-    } else {
-        response.status(404)
-        response.json({ status: 404, message: 'Nenhum aluno encontrado com esse status' })
-    }
+app.listen('8080', function(){
+    console.log('API funcionando e aguardando requisições...')
 })
-
-app.get('/v1/lion-school/alunos/filtro', async function(request, response) {
-    const sigla = request.query.sigla
-    const disciplina = request.query.disciplina
-    const dados = cursos.getDisciplinaAluno(sigla, disciplina)
-
-    if (dados) {
-        response.status(200)
-        response.json(dados)
-    } else {
-        response.status(404)
-        response.json({ status: 404, message: 'Não foi possível encontrar o aluno ou disciplina' })
-    }
-})
-
-app.get('/v1/lion-school/alunos/filtro', async function(request, response) {
-    const sigla = request.query.sigla
-    const ano = request.query.ano
-    const dados = cursos.getAnoConclusao(sigla, ano)
-
-    if (dados) {
-        response.status(200)
-        response.json(dados)
-    } else {
-        response.status(404)
-        response.json({ status: 404, message: 'Não foi possível encontrar o curso ou ano de conclusão' })
-    }
-})
-
-
-app.listen(() => console.log(`Servidor rodando na porta ${PORT}`))
 

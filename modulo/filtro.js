@@ -5,20 +5,34 @@ var alunos_api = require('../alunos.js')
 const getListaCursos = function(){
     let curso = cursos_api.cursos
     let ListaNomes = []
+    let RetornaCurso = {}
 
     curso.forEach(function(item){
-        ListaNomes.push(item.nome)
+        ListaNomes.push(RetornaCurso = {
+            curso: item.sigla,
+            nome: item.nome,
+            carga_horaria: item.carga,
+            icone: item.icone
+        })
     })
 
-    return ListaNomes
+    return RetornaCurso
 }
 
 const getListaAlunos = function(){
     let alunos = alunos_api.alunos
     let ListaAlunos = []
+    let tudoAluno = false
 
     alunos.forEach(function(item){
-        ListaAlunos.push(item.nome)
+        ListaAlunos.push(tudoAluno = {
+            foto: item.foto,
+            nome: item.nome,
+            matricula: item.matricula,
+            sexo: item.sexo,
+            curso: item.curso,
+            status: item.status
+        })
     })
 
     return ListaAlunos
@@ -66,7 +80,7 @@ const getAlunosCurso = function(pegarValor){
 
 const getStatusAluno = function(pegarValor){
     let alunos = alunos_api.alunos
-    let api = pegarValor
+    let api = pegarValor.toUpperCase()
     let juntos = false
     let AlunosCurso = []
 
@@ -89,19 +103,21 @@ const getDisciplinaAluno = function(pegarValor, pegarValor2) {
     let api2 = pegarValor2.toUpperCase()
     let resultado = false
     let ListaNomes = []
+    let ListaDisciplinas = []
 
     alunos.forEach(function(item){
         item.curso.forEach(function(item2){
             if (item2.sigla.toUpperCase() == api){
                 item2.disciplinas.forEach(function(item3){
                     if (item3.status.toUpperCase() == api2.toUpperCase()){
-                        if (ListaNomes.indexOf(item.nome) === -1){
-                            ListaNomes.push(item.nome)
-                        }
+                        ListaNomes.push(item.nome)
+                        ListaDisciplinas.push(item3.nome)
+
                         resultado = {
-                            alunos: ListaNomes,
                             curso: item2.sigla,
                             status_disciplina: item3.status,
+                            alunos: ListaNomes,
+                            nome_disciplina: ListaDisciplinas
                         }
                     }
                 })
@@ -149,8 +165,8 @@ module.exports = {
 }
 
 //console.log(getAnoConclusao('DS', '2022'))
-//console.log(getDisciplinaAluno('DS','APROVADO'))
-//console.log(getStatusAluno('cursando'))
+//console.log(getDisciplinaAluno('ds','reprovado'))
+//console.log(getStatusAluno('CURSANDO'))
 //console.log(getAlunosCurso('rds'))
 //console.log(getMatricula('matricula'))
 //console.log(getListaAlunos())
