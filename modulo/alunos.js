@@ -684,3 +684,5 @@
             "status" : "Cursando"
         }
     ];
+
+    module.exports = {alunos}

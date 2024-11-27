@@ -1,5 +1,5 @@
-var cursos_api = require('../cursos.js')
-var alunos_api = require('../alunos.js')
+var cursos_api = require('./cursos.js')
+var alunos_api = require('./alunos.js')
 
 
 const getListaCursos = function(){
@@ -169,5 +169,5 @@ module.exports = {
 //console.log(getStatusAluno('CURSANDO'))
 //console.log(getAlunosCurso('rds'))
 //console.log(getMatricula('matricula'))
-//console.log(getListaAlunos())
+console.log(getListaAlunos())
 //console.log(getListaCursos())
