@@ -49,6 +49,7 @@ const getMatricula = function(pegarValor) {
                 nome: item.nome,
                 matricula: item.matricula,
                 sexo: item.sexo,
+                curso: item.curso,
                 status: item.status
             }
         }
