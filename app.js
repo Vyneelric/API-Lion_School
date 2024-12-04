@@ -33,42 +33,38 @@ app.get('/v1/lion-school/alunos', cors(), async function(request, response){
 })
 
 app.get('/v1/lion-school/alunos/filtro', async function(request, response) {
-    const { status, sigla, ano_conclusao } = request.query;
+    const { status, sigla, ano_conclusao } = request.query
     let dados
 
 
         if (sigla && status) {
-            dados = cursos.getDisciplinaAluno(sigla, status);
+            dados = cursos.getDisciplinaAluno(sigla, status)
             if (dados) {
-                return response.status(200).json(dados);
+                return response.status(200).json(dados)
             } else {
                 return response.status(404).json({ status: 404, message: 'Não foi possível encontrar o aluno ou disciplina' })
             }
         }
-    
-    // Verifica se é uma busca por status
+        
     if (status) {
-        dados = cursos.getStatusAluno(status);
+        dados = cursos.getStatusAluno(status)
         if (dados) {
-            return response.status(200).json(dados);
+            return response.status(200).json(dados)
         } else {
-            return response.status(404).json({ status: 404, message: 'Nenhum aluno encontrado com esse status' });
+            return response.status(404).json({ status: 404, message: 'Nenhum aluno encontrado com esse status' })
         }
     }
 
-
-    // Verifica se é uma busca por sigla e ano
     if (sigla && ano_conclusao) {
-        dados = cursos.getAnoConclusao(sigla, ano_conclusao);
+        dados = cursos.getAnoConclusao(sigla, ano_conclusao)
         if (dados) {
-            return response.status(200).json(dados);
+            return response.status(200).json(dados)
         } else {
-            return response.status(404).json({ status: 404, message: 'Não foi possível encontrar o curso ou ano de conclusão' });
+            return response.status(404).json({ status: 404, message: 'Não foi possível encontrar o curso ou ano de conclusão' })
         }
     }
 
-    // Se nenhum parâmetro for fornecido
-    return response.status(400).json({ status: 400, message: 'Parâmetros insuficientes para realizar a busca' });
+    return response.status(400).json({ status: 400, message: 'Parâmetros insuficientes para realizar a busca' })
 })
 
 app.get('/v1/lion-school/alunos/:matricula', cors(), async function (request, response) {

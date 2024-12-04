@@ -131,6 +131,7 @@ const getDisciplinaAluno = function(pegarValor, pegarValor2) {
 
 const getAnoConclusao = function(pegarValor, pegarValor2) {
     let alunos = alunos_api.alunos
+    let curso = cursos_api.cursos
     let api = pegarValor.toUpperCase()
     let api2 = pegarValor2.toUpperCase()
     let resultado = false
@@ -139,15 +140,19 @@ const getAnoConclusao = function(pegarValor, pegarValor2) {
 
     alunos.forEach(function(item) {
         item.curso.forEach(function(item2) {
-            if (item2.sigla.toUpperCase() == api && item2.conclusao == api2){
-                ListaNomes.push(item.nome)
-                resultado = {
-                    curso: item2.sigla,
-                    ano_conclusao: item2.conclusao,
-                    alunos: ListaNomes
+            curso.forEach(function(item3){
+                if (item2.sigla.toUpperCase() == api && item2.conclusao == api2){
+                    ListaNomes.push(item.nome)
+                    resultado = {
+                        nome_curso: item3.nome,
+                        curso: item2.sigla,
+                        icone_curso: item3.icone,
+                        carga_curso: item3.carga,
+                        ano_conclusao: item2.conclusao,
+                        alunos: ListaNomes
                 }
-
             }
+            })
         })
     })
 
