@@ -16,7 +16,7 @@ const getListaCursos = function(){
         })
     })
 
-    return RetornaCurso
+    return ListaNomes
 }
 
 const getListaAlunos = function(){
@@ -170,4 +170,4 @@ module.exports = {
 //console.log(getAlunosCurso('rds'))
 //console.log(getMatricula('matricula'))
 //console.log(getListaAlunos())
-//console.log(getListaCursos())
+console.log(getListaCursos())
