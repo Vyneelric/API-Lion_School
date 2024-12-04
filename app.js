@@ -33,9 +33,19 @@ app.get('/v1/lion-school/alunos', cors(), async function(request, response){
 })
 
 app.get('/v1/lion-school/alunos/filtro', async function(request, response) {
-    const { status, sigla, disciplina, ano } = request.query;
-    let dados;
+    const { status, sigla, ano_conclusao } = request.query;
+    let dados
 
+
+        if (sigla && status) {
+            dados = cursos.getDisciplinaAluno(sigla, status);
+            if (dados) {
+                return response.status(200).json(dados);
+            } else {
+                return response.status(404).json({ status: 404, message: 'Não foi possível encontrar o aluno ou disciplina' })
+            }
+        }
+    
     // Verifica se é uma busca por status
     if (status) {
         dados = cursos.getStatusAluno(status);
@@ -46,19 +56,10 @@ app.get('/v1/lion-school/alunos/filtro', async function(request, response) {
         }
     }
 
-    // Verifica se é uma busca por sigla e disciplina
-    if (sigla && disciplina) {
-        dados = cursos.getDisciplinaAluno(sigla, disciplina);
-        if (dados) {
-            return response.status(200).json(dados);
-        } else {
-            return response.status(404).json({ status: 404, message: 'Não foi possível encontrar o aluno ou disciplina' });
-        }
-    }
 
     // Verifica se é uma busca por sigla e ano
-    if (sigla && ano) {
-        dados = cursos.getAnoConclusao(sigla, ano);
+    if (sigla && ano_conclusao) {
+        dados = cursos.getAnoConclusao(sigla, ano_conclusao);
         if (dados) {
             return response.status(200).json(dados);
         } else {

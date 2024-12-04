@@ -169,5 +169,5 @@ module.exports = {
 //console.log(getStatusAluno('CURSANDO'))
 //console.log(getAlunosCurso('rds'))
 //console.log(getMatricula('matricula'))
-console.log(getListaAlunos())
+//console.log(getListaAlunos())
 //console.log(getListaCursos())
