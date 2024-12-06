@@ -67,14 +67,19 @@ const getAlunosCurso = function(pegarValor){
     alunos.forEach(function(item){
         item.curso.forEach(function(item2){
             if (item2.sigla.toUpperCase() == api){
-                NomesAlunos.push(item.nome)
+                NomesAlunos.push(({
+                    foto: item.foto,
+                    nome: item.nome,
+                    matricula: item.matricula,
+                    sexo: item.sexo,
+                    curso: item.curso  
+                }))
                 AlunosCurso = {
-                nome: NomesAlunos,
-                curso: item2.sigla
+                curso: item2.sigla,
+                nome: NomesAlunos
             }
         }
         })
-
     })
     return AlunosCurso
 }
@@ -87,10 +92,16 @@ const getStatusAluno = function(pegarValor){
 
     alunos.forEach(function(item){
         if (item.status.toUpperCase() == api){
-            AlunosCurso.push(item.nome)
+            AlunosCurso.push({
+                foto: item.foto,
+                nome: item.nome,
+                matricula: item.matricula,
+                sexo: item.sexo,
+                curso: item.curso  
+            })
             juntos = {
-                alunos: AlunosCurso,
-                status: item.status
+                status: item.status,
+                alunos: AlunosCurso
             }
         }
     })
@@ -108,7 +119,7 @@ const getDisciplinaAluno = function(pegarValor, pegarValor2) {
 
     alunos.forEach(function(item){
         item.curso.forEach(function(item2){
-            if (item2.sigla.toUpperCase() == api){
+            if (item2.sigla.toUpperCase() == api.toUpperCase()){
                 item2.disciplinas.forEach(function(item3){
                     if (item3.status.toUpperCase() == api2.toUpperCase()){
                         ListaNomes.push(item.nome)
@@ -137,27 +148,33 @@ const getAnoConclusao = function(pegarValor, pegarValor2) {
     let resultado = false
     let ListaNomes = []
 
-
     alunos.forEach(function(item) {
         item.curso.forEach(function(item2) {
-            curso.forEach(function(item3){
-                if (item2.sigla.toUpperCase() == api && item2.conclusao == api2){
-                    ListaNomes.push(item.nome)
+            curso.forEach(function(item3) {
+                if (item2.sigla.toUpperCase() == api && item2.conclusao == api2) {
+                    // Verificando se o nome do aluno já foi adicionado
+                    if (!ListaNomes.some(aluno => aluno.nome === item.nome)) {
+                        ListaNomes.push({
+                            foto: item.foto,
+                            nome: item.nome,
+                            matricula: item.matricula,
+                            sexo: item.sexo,
+                            curso: item.curso
+                        })
+                    }
                     resultado = {
-                        nome_curso: item3.nome,
-                        curso: item2.sigla,
-                        icone_curso: item3.icone,
-                        carga_curso: item3.carga,
-                        ano_conclusao: item2.conclusao,
+                        Ano_Conclusao: item2.conclusao,
+                        curso: item3.sigla,
                         alunos: ListaNomes
+                    }
                 }
-            }
             })
         })
     })
 
     return resultado
 }
+
 
 
 module.exports = {
@@ -171,9 +188,9 @@ module.exports = {
 }
 
 //console.log(getAnoConclusao('DS', '2022'))
-//console.log(getDisciplinaAluno('ds','reprovado'))
+//console.log(getDisciplinaAluno('ds','aprovado'))
 //console.log(getStatusAluno('CURSANDO'))
-//console.log(getAlunosCurso('rds'))
+//console.log(getAlunosCurso('ds'))
 //console.log(getMatricula('matricula'))
 //console.log(getListaAlunos())
 //console.log(getListaCursos())
